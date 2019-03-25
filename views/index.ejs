@@ -1,0 +1,40 @@
+<% include ./partials/header %>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card bg-light">
+        <div class="card-body">
+          <h5 class="text-capitalize p-3 card-title">welcome to Yelp Camp</h5>
+          <p class="card-text">You can view and add campgrounds</p>
+          <a href="/campgrounds/new" role="button" class="btn btn-primary"
+            >Add new campground</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row mx-3">
+      <%campgrounds.map( campground => { %>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card mt-4 img-thumbnail p-0" style="width:32vw" }>
+          <img class=" card-img-top" height="150px" src= <%= campground.image %>
+          alt="campground" />
+          <div class="card-body">
+            <p class="card-title font-weight-bold text-uppercase">
+              <%= campground.name %>
+            </p>
+            <p class="card-text text-truncate"><%= campground.description %></p>
+            <p></p>
+            <a
+              href="/campgrounds/<%= campground._id %>"
+              class="btn btn-outline-primary"
+              >View more</a
+            >
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+
+<% include ./partials/footer %>
