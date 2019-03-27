@@ -4,8 +4,16 @@ const commentSchema = mongoose.Schema({
     text: {
         type: String
     },
+    date: {
+        type: Date,
+        default: new Date().toLocaleDateString()
+    },
     author: {
-        type: String,
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String,
         
     }
 })

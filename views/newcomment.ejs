@@ -1,21 +1,15 @@
-<% include ./partials/header %>
-<div class="container">
+<% include ./partials/header %> <% include ./partials/message %>
+<div class="container mt-4">
     <form action="/campgrounds/<%= campground._id %>/comments" method="POST">
     <fieldset>
-      <legend class="text-center">Create a New Campground</legend>
-      <div class="form-group">
-          <label for="name">Author Name</label>
-          <input type="text" autocomplete="off" class='form-control' name="author" placeholder="author" />
-        </div>
+      <legend class="text-center">Add Comment</legend>
         <div class="form-group">
           <label for="description">Comment</label>
-          <textarea autocomplete="off" name="text" class='form-control' cols="30" rows="10" placeholder="Type here"></textarea>
+          <input type="text" autocomplete="off" name="text" class='form-control' cols="30" rows="10" placeholder="Type here"  autocomplete="off" ></input>
         </div>
         <button type='submit' class='btn btn-primary mb-3 btn-block'>Submit</button>
     </fieldset> 
   </form>
-
-  <a href="/campgrounds">Go back to Campgrounds</a>
 </div>
 
 <% include ./partials/footer %>

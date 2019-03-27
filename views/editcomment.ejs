@@ -1,0 +1,21 @@
+<% include ./partials/header %> <% include ./partials/message %>
+<div class="container mt-4">
+    <form action="/campgrounds/<%= campground_id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+    <fieldset>
+      <legend class="text-center">Edit Comment</legend>
+        <div class="form-group">
+          <label for="description">Comment</label>
+            <input type="text" autocomplete="off" name="text" class='form-control' cols="30" rows="10" value="<%= comment.text %>"  autocomplete="off" ></input>
+        </div>
+        <button type='submit' class='btn btn-primary mb-3 btn-block'>Submit</button>
+    </fieldset> 
+  </form>
+
+  
+    
+    
+
+  <a href="/campgrounds">Go back to Campgrounds</a>
+</div>
+
+<% include ./partials/footer %>
