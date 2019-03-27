@@ -1,0 +1,16 @@
+body {
+  font-family: "Old Standard TT", serif;
+}
+
+.min-width-box {
+  min-width: 190px;
+}
+
+.respon-img {
+  max-height: 20px;
+  min-width: 100%;
+}
+
+#landing-text{
+  margin-top: 45vh !important;
+}

@@ -1,5 +1,6 @@
 <% include ./partials/header %>
-<div class="container">
+<% include ./partials/message %>
+<div class="container mt-4">
   <div class="row">
     <div class="col-12">
       <div class="card bg-light">
@@ -15,7 +16,7 @@
     <div class="row mx-3">
       <%campgrounds.map( campground => { %>
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="card mt-4 img-thumbnail p-0" style="width:32vw" }>
+        <div class="card mt-4 img-thumbnail p-0 min-width-box" style="width:32vw" }>
           <img class=" card-img-top" height="150px" src= <%= campground.image %>
           alt="campground" />
           <div class="card-body">

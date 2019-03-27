@@ -2,10 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="description" content="YelpCamp Project" />
+    <meta name="keywords" content="Suulola, expressjs, udemy, campgrounds" />
+    <meta name="author" content="Suulola Oluwaseyi" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./stylesheets/main.css" />
+    <meta
+      property="og:image"
+      content="https://previews.123rf.com/images/druzhinina/druzhinina1802/druzhinina180200047/95744783-camping-tent-for-tourism-cartoon-sketch-illustration-of-travel-equipment-vector.jpg"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://previews.123rf.com/images/druzhinina/druzhinina1802/druzhinina180200047/95744783-camping-tent-for-tourism-cartoon-sketch-illustration-of-travel-equipment-vector.jpg"
+    />
+    <title>YelpCamp</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -27,10 +44,17 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Old+Standard+TT"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./stylesheets/main.css" />
   </head>
+
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-      <a class="navbar-brand" href="#">YelpCamp</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">YelpCamp</a>
+      <a class="text-secondary" href="/campgrounds">Campgrounds</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -43,24 +67,28 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
+      <% if(!currentUser) { %> <% }else { %> <% } %>
+
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <% if(!currentUser) { %>
           <li class="nav-item active">
-            <a class="nav-link" href="/login"
-              >Login</a
-            >
+            <a class="nav-link" href="/login">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/register">Sign up</a>
           </li>
+          <% }else { %>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              >Logout</a
-            >
+            <a class="nav-link" href="/logout">Logout</a>
           </li>
+          <% } %>
         </ul>
+        <% if(currentUser) { %>
+        <p class="text-muted text-uppercase mr-4 mt-2">
+          Welcome <%= currentUser.username %>
+        </p>
+        <% } %>
         <form class="form-inline my-2 my-lg-0">
           <input
             class="form-control mr-sm-2"
@@ -73,5 +101,4 @@
         </form>
       </div>
     </nav>
-  </body>
-</html>
+

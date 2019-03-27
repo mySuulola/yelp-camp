@@ -1,90 +1,60 @@
 //npm modules
-const express= require("express")
-const app = express()
-const mongoose = require("mongoose")
-
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const session = require("express-session");
+const passport = require("passport");
+const flash = require("connect-flash");
+const methodOverride = require("method-override");
 
 // modules created
-const Campground = require('./models/Campground')
-const Comment = require('./models/Comment')
-const seedDB = require('./seed')
+const config = require("./middleware/passport");
 
-// mdn inline-style
+//routes
+var commentRoute = require("./routes/comment");
+var authRoute = require("./routes/auth");
+var campgroundRoute = require("./routes/campground");
 
-mongoose.connect("mongodb://localhost/yelp-camp", {useNewUrlParser: true})
-.then(() => console.log("connected to database"))
-.catch((err) => console.log("Error connecting ${err}"))
+// connection to database
+mongoose
+  .connect("mongodb://freecode19:freecode19@ds221435.mlab.com:21435/mysuuloladb", { useNewUrlParser: true })
+  .then(() => console.log("connected to database"))
+  .catch(err => console.log("Error connecting ${err}"));
 
-seedDB()
+// middlewares
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/public"));
+app.use(flash());
+app.use(methodOverride("_method"));
+app.use(
+  session({
+    secret: "you wanna know the secret abi",
+    resave: true,
+    saveUninitialized: false
+  })
+);
 
-app.set("view engine", "ejs")
-app.use(express.urlencoded({extended: true}))
-app.use(express.static(__dirname + '/public'))
+app.use(passport.initialize());
+app.use(passport.session());
 
+// passport configuration
+config(passport);
 
-app.get('/',  (req, res) => {
-    res.render("landing")
-})
+// global inputs
+app.use((req, res, next) => {
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.currentUser = req.user;
+  next();
+});
 
-app.get("/campgrounds", (req, res) => {
-    Campground.find({}, (err, campgrounds) => {
-        if(err) throw err
-        res.render("index", {campgrounds: campgrounds})
-    })
-})
-app.get("/campgrounds/new", (req, res) => {
-    res.render("new")
-})
+// routes
+app.use("/campgrounds", campgroundRoute);
+app.use("/campgrounds/:id/comments", commentRoute);
+app.use("/", authRoute);
 
-app.post("/campgrounds", (req, res) => {
-    var newCampground = {name: req.body.name, image: req.body.image, description: req.body.description}
-    console.log(newCampground)
-    Campground.create(newCampground, (err, newCampground) => {
-        if(err) throw err
-        res.redirect("/campgrounds")
-    })
-})
-
-app.get("/campgrounds/:id/", (req, res) => {
-    Campground.findById(req.params.id).populate("comments").exec((err, campground) => {
-        if(err){
-            console.log(err)
-        }else{
-            console.log(campground)
-            res.render("show", {campground: campground })
-        }
-    })
-})
-
-
-////////////////////////// coments
-app.get('/campgrounds/:id/comments/new', (req, res) => {
-    Campground.findById(req.params.id, (err, campground) => {
-        res.render('newcomment', {campground:campground})
-    })
-})
-
-app.post('/campgrounds/:id/comments', (req, res) => {
-    Campground.findById(req.params.id, (err, campground) => {
-        if(err){
-            console.log(err)
-            res.redirect('/campgrounds')
-        }else{
-            var {text, author} = req.body
-            Comment.create({
-                text, author
-            }, (err, comment) => {
-                if(err){
-                    console.log(err)
-                }else{
-                    campground.comments.push(comment)
-                    campground.save()
-                    res.redirect("/campgrounds/" + campground._id)
-                }
-            })
-        }
-    })
-})
-
-const PORT = 5100
-app.listen(PORT, () => console.log(`Server running on ${PORT}`))
+// port
+const PORT = 5100;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
