@@ -56,5 +56,4 @@ app.use("/campgrounds/:id/comments", commentRoute);
 app.use("/", authRoute);
 
 // port
-const PORT = 5100;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+app.listen( process.env.port || 5100 )
