@@ -6,6 +6,7 @@ const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
+const cookierPaser = require("cookie-parser")
 
 // modules created
 const config = require("./middleware/passport");
@@ -25,14 +26,15 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(cookierPaser('secret'))
+
 app.use(flash());
 app.use(methodOverride("_method"));
 app.use(
   session({
     secret: "you wanna know the secret abi",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    saveUninitialized: false,
   })
 );
 
@@ -57,4 +59,6 @@ app.use("/campgrounds/:id/comments", commentRoute);
 app.use("/", authRoute);
 
 // port
-app.listen( process.env.PORT || 5100 )
+app.listen( process.env.PORT, process.env.IP, () => {
+  console.log('Server has started')
+} )
