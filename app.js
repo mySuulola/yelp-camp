@@ -56,4 +56,4 @@ app.use("/campgrounds/:id/comments", commentRoute);
 app.use("/", authRoute);
 
 // port
-app.listen( process.env.port || 5100 )
+app.listen( process.env.PORT || 5100 )
