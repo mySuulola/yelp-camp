@@ -6,6 +6,7 @@ const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
+const SessionStore = require('session-mongoose')(express);
 
 // modules created
 const config = require("./middleware/passport");
@@ -28,12 +29,14 @@ app.use(express.static(__dirname + "/public"));
 app.use(flash());
 app.use(methodOverride("_method"));
 app.use(
-  session({
-    secret: "you wanna know the secret abi",
-    resave: true,
-    saveUninitialized: false
-  })
-);
+  express.session({
+    store: new SessionStore({
+    url: 'mongodb://freecode19:freecode19@ds221435.mlab.com:21435/mysuuloladb',
+    interval: 1200000
+  }),
+  cookie: { maxAge: 1200000 },
+  secret: 'my secret'
+}))
 
 app.use(passport.initialize());
 app.use(passport.session());
