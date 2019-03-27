@@ -20,7 +20,7 @@ var campgroundRoute = require("./routes/campground");
 mongoose
   .connect("mongodb://freecode19:freecode19@ds221435.mlab.com:21435/mysuuloladb", { useNewUrlParser: true })
   .then(() => console.log("connected to database"))
-  .catch(err => console.log("Error connecting ${err}"));
+  .catch(err => console.log("Error connecting", err));
 
 // middlewares
 app.set("view engine", "ejs");
