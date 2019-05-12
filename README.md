@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-# yelp-camp
 =======
 # yelp-camp
 

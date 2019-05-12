@@ -6,7 +6,8 @@ const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
-const cookierPaser = require("cookie-parser")
+const cookierPaser = require("cookie-parser");
+const cors = require("cors");
 
 // modules created
 const config = require("./middleware/passport");
@@ -18,15 +19,19 @@ var campgroundRoute = require("./routes/campground");
 
 // connection to database
 mongoose
-  .connect("mongodb://freecode19:freecode19@ds221435.mlab.com:21435/mysuuloladb", { useNewUrlParser: true })
+  .connect(process.env.MONGODB || "mongodb://localhost/yelp-camp", {
+    useNewUrlParser: true
+  })
   .then(() => console.log("connected to database"))
   .catch(err => console.log("Error connecting", err));
+mongoose.Promise = global.Promise;
 
 // middlewares
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
-app.use(cookierPaser('secret'))
+app.use(cookierPaser("secret"));
+app.use(cors());
 
 app.use(flash());
 app.use(methodOverride("_method"));
@@ -34,7 +39,7 @@ app.use(
   session({
     secret: "you wanna know the secret abi",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false
   })
 );
 
@@ -59,6 +64,6 @@ app.use("/campgrounds/:id/comments", commentRoute);
 app.use("/", authRoute);
 
 // port
-app.listen( process.env.PORT, process.env.IP, () => {
-  console.log('Server has started')
-} )
+app.listen(process.env.PORT || 5100, process.env.IP, () => {
+  console.log("Server has started");
+});
